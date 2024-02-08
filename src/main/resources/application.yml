@@ -1,6 +1,3 @@
-# 公共配置文件
-# @author <a href="https://github.com/liyupi">程序员鱼皮</a>
-# @from <a href="https://yupi.icu">编程导航知识星球</a>
 spring:
   application:
     name: API-Cube
@@ -95,3 +92,8 @@ springdoc:
 # knife4j的增强配置，不需要增强可以不配
 knife4j:
   enable: true
+
+apicube:
+  client:
+    access-key: burger
+    secret-key: abcdefg

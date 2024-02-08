@@ -3,10 +3,7 @@ package com.hjj.apicube.controller;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.hjj.apicube.annotation.AuthCheck;
-import com.hjj.apicube.common.BaseResponse;
-import com.hjj.apicube.common.DeleteRequest;
-import com.hjj.apicube.common.ErrorCode;
-import com.hjj.apicube.common.ResultUtils;
+import com.hjj.apicube.common.*;
 import com.hjj.apicube.constant.UserConstant;
 import com.hjj.apicube.exception.BusinessException;
 import com.hjj.apicube.exception.ThrowUtils;
@@ -15,9 +12,13 @@ import com.hjj.apicube.model.dto.interfaceinfo.InterfaceInfoQueryRequest;
 import com.hjj.apicube.model.dto.interfaceinfo.InterfaceInfoUpdateRequest;
 import com.hjj.apicube.model.entity.InterfaceInfo;
 import com.hjj.apicube.model.entity.User;
+import com.hjj.apicube.model.enums.InterfaceInfoStatusEnum;
 import com.hjj.apicube.service.InterfaceInfoService;
 import com.hjj.apicube.service.UserService;
+import com.hjj.apicubeclientsdk.client.ApiCubeClient;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.BeanUtils;
 import org.springframework.web.bind.annotation.*;
 
@@ -38,6 +39,9 @@ public class InterfaceInfoController {
 
     @Resource
     private UserService userService;
+
+    @Resource
+    ApiCubeClient apiCubeClient;
     // region 增删改查
 
     /**
@@ -150,8 +154,8 @@ public class InterfaceInfoController {
      * @param request
      * @return
      */
-    @PostMapping("/list/page")
-    public BaseResponse<Page<InterfaceInfo>> listInterfaceInfoByPage(@RequestBody InterfaceInfoQueryRequest interfaceInfoQueryRequest,
+    @GetMapping("/list/page")
+    public BaseResponse<Page<InterfaceInfo>> listInterfaceInfoByPage(InterfaceInfoQueryRequest interfaceInfoQueryRequest,
                                                                        HttpServletRequest request) {
         ThrowUtils.throwIf(interfaceInfoQueryRequest == null, ErrorCode.PARAMS_ERROR);
         long current = interfaceInfoQueryRequest.getCurrent();
@@ -164,4 +168,62 @@ public class InterfaceInfoController {
     }
     // endregion
 
+    /**
+     * 发布（仅管理员）
+     *
+     * @param idRequest
+     * @return
+     */
+    @PostMapping("/online")
+    @AuthCheck(mustRole = UserConstant.ADMIN_ROLE)
+    public BaseResponse<Boolean> onlineInterfaceInfo(@RequestBody IdRequest idRequest) {
+        // 参数校验
+        ThrowUtils.throwIf(idRequest == null, ErrorCode.PARAMS_ERROR);
+        // 校验接口是否存在
+        long id = idRequest.getId();
+        InterfaceInfo oldInterfaceInfo = interfaceInfoService.getById(id);
+        ThrowUtils.throwIf(oldInterfaceInfo == null, ErrorCode.NOT_FOUND_ERROR);
+        // 判断接口是否可以调用
+        com.hjj.apicubeclientsdk.model.User user = new com.hjj.apicubeclientsdk.model.User();
+        user.setUsername("test");
+        String username = apiCubeClient.getUsernameByPost(user);
+        if (StringUtils.isBlank(username)) {
+            throw new BusinessException(ErrorCode.SYSTEM_ERROR, "接口验证失败");
+        }
+        // 仅本人或管理员可修改
+        InterfaceInfo interfaceInfo = new InterfaceInfo();
+        interfaceInfo.setId(id);
+        interfaceInfo.setStatus(InterfaceInfoStatusEnum.ONLINE.getValue());
+        boolean result = interfaceInfoService.updateById(interfaceInfo);
+        return ResultUtils.success(result);
+    }
+
+    /**
+     * 下线（仅管理员）
+     *
+     * @param idRequest
+     * @return
+     */
+    @PostMapping("/offline")
+    @AuthCheck(mustRole = UserConstant.ADMIN_ROLE)
+    public BaseResponse<Boolean> offlineInterfaceInfo(@RequestBody
+                                                          IdRequest idRequest) {
+        // 参数校验
+        ThrowUtils.throwIf(idRequest == null, ErrorCode.PARAMS_ERROR);
+        // 校验接口是否存在
+        long id = idRequest.getId();
+        InterfaceInfo oldInterfaceInfo = interfaceInfoService.getById(id);
+        ThrowUtils.throwIf(oldInterfaceInfo == null, ErrorCode.NOT_FOUND_ERROR);
+        // 判断接口是否可以调用
+        com.hjj.apicubeclientsdk.model.User user = new com.hjj.apicubeclientsdk.model.User();
+        user.setUsername("test");
+        String username = apiCubeClient.getUsernameByPost(user);
+        ThrowUtils.throwIf(StringUtils.isBlank(username), ErrorCode.SYSTEM_ERROR, "接口验证失败");
+        // 仅本人或管理员可修改
+        InterfaceInfo interfaceInfo = new InterfaceInfo();
+        interfaceInfo.setId(id);
+        interfaceInfo.setStatus(InterfaceInfoStatusEnum.OFFLINE.getValue());
+        boolean result = interfaceInfoService.updateById(interfaceInfo);
+        return ResultUtils.success(result);
+    }
 }
