@@ -2,12 +2,14 @@ package com.hjj.apicube.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.google.gson.Gson;
 import com.hjj.apicube.annotation.AuthCheck;
 import com.hjj.apicube.common.*;
 import com.hjj.apicube.constant.UserConstant;
 import com.hjj.apicube.exception.BusinessException;
 import com.hjj.apicube.exception.ThrowUtils;
 import com.hjj.apicube.model.dto.interfaceinfo.InterfaceInfoAddRequest;
+import com.hjj.apicube.model.dto.interfaceinfo.InterfaceInfoInvokeRequest;
 import com.hjj.apicube.model.dto.interfaceinfo.InterfaceInfoQueryRequest;
 import com.hjj.apicube.model.dto.interfaceinfo.InterfaceInfoUpdateRequest;
 import com.hjj.apicube.model.entity.InterfaceInfo;
@@ -18,7 +20,6 @@ import com.hjj.apicube.service.UserService;
 import com.hjj.apicubeclientsdk.client.ApiCubeClient;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.BeanUtils;
 import org.springframework.web.bind.annotation.*;
 
@@ -225,5 +226,37 @@ public class InterfaceInfoController {
         interfaceInfo.setStatus(InterfaceInfoStatusEnum.OFFLINE.getValue());
         boolean result = interfaceInfoService.updateById(interfaceInfo);
         return ResultUtils.success(result);
+    }
+
+    /**
+     * 测试调用
+     *
+     * @param interfaceInfoInvokeRequest
+     * @return
+     */
+    @PostMapping("/invoke")
+    public BaseResponse<Object> invokeInterfaceInfo(@RequestBody
+                                                          InterfaceInfoInvokeRequest interfaceInfoInvokeRequest,
+                                                      HttpServletRequest request) {
+        // 参数校验
+        ThrowUtils.throwIf(interfaceInfoInvokeRequest == null || interfaceInfoInvokeRequest.getId() <= 0,
+                ErrorCode.PARAMS_ERROR);
+        // 校验接口是否存在
+        long id = interfaceInfoInvokeRequest.getId();
+        String userRequestParams = interfaceInfoInvokeRequest.getUserRequestParams();
+
+        // 判断接口是否存在
+        InterfaceInfo oldInterfaceInfo = interfaceInfoService.getById(id);
+        ThrowUtils.throwIf(oldInterfaceInfo == null, ErrorCode.NOT_FOUND_ERROR);
+        ThrowUtils.throwIf(oldInterfaceInfo.getStatus() == InterfaceInfoStatusEnum.OFFLINE.getValue(),
+                ErrorCode.PARAMS_ERROR, "接口已关闭");
+        User loginUser = userService.getLoginUser(request);
+        String accessKey = loginUser.getAccessKey();
+        String secretKey = loginUser.getSecretKey();
+        ApiCubeClient tempClient = new ApiCubeClient(accessKey, secretKey);
+        Gson gson = new Gson();
+        com.hjj.apicubeclientsdk.model.User user = gson.fromJson(userRequestParams, com.hjj.apicubeclientsdk.model.User.class);
+        String usernameByPost = tempClient.getUsernameByPost(user);
+        return ResultUtils.success(usernameByPost);
     }
 }

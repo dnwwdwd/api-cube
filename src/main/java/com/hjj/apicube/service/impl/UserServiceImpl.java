@@ -1,29 +1,21 @@
 package com.hjj.apicube.service.impl;
 
-import static com.hjj.apicube.constant.UserConstant.USER_LOGIN_STATE;
-
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.RandomUtil;
 import cn.hutool.crypto.digest.DigestUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.hjj.apicube.common.ErrorCode;
-import com.hjj.apicube.mapper.UserMapper;
-import com.hjj.apicube.utils.SqlUtils;
 import com.hjj.apicube.constant.CommonConstant;
 import com.hjj.apicube.exception.BusinessException;
+import com.hjj.apicube.mapper.UserMapper;
 import com.hjj.apicube.model.dto.user.UserQueryRequest;
 import com.hjj.apicube.model.entity.User;
 import com.hjj.apicube.model.enums.UserRoleEnum;
 import com.hjj.apicube.model.vo.LoginUserVO;
 import com.hjj.apicube.model.vo.UserVO;
 import com.hjj.apicube.service.UserService;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-import java.util.stream.Collectors;
-import javax.servlet.http.HttpServletRequest;
+import com.hjj.apicube.utils.SqlUtils;
 import lombok.extern.slf4j.Slf4j;
 import me.chanjar.weixin.common.bean.WxOAuth2UserInfo;
 import org.apache.commons.lang3.StringUtils;
@@ -31,11 +23,16 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
 
+import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import static com.hjj.apicube.constant.UserConstant.USER_LOGIN_STATE;
+
 /**
  * 用户服务实现
  *
- * @author <a href="https://github.com/liyupi">程序员鱼皮</a>
- * @from <a href="https://yupi.icu">编程导航知识星球</a>
  */
 @Service
 @Slf4j
