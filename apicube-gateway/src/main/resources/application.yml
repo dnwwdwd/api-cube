@@ -4,12 +4,39 @@ server:
 spring:
   cloud:
     gateway:
+      default-filters:
+        - AddResponseHeader=source-yupi
       routes:
-        - id: after_route
-          uri: https://yupi.icu
+        - id: add_request_header_route
+          uri: http://localhost:8081
           predicates:
-            - After=2017-01-20T17:42:47.789-07:00[America/Denver]
+            - Path=/api/**
+          filters:
+          - AddRequestParameter=name, burger
+          - name: CircuitBreaker
+            args:
+              name: myCircuitBreaker
+              fallbackUri: forward:/fallback
+          - RewritePath=/consumingServiceEndpoint, /backingServiceEndpoint
+        - id: yupi-fallback
+          uri: https:/yupi.icu
+          predicates:
+            - Path=/fallback
 #        - id: after_route
-#          uri: https://bilibili.com
+#          uri: https://yupi.icu
 #          predicates:
-#            - Before=2017-01-20T17:42:47.789-07:00[America/Denver]
+#            - After=2017-01-20T17:42:47.789-07:00[America/Denver]
+#        - id: path_route
+#          uri: https://yupi.icu
+#          predicates:
+#            - Path=/api/**
+#        - id: path_route2
+#          uri: https://baidu.com
+#          predicates:
+#            - Path=/baidu/**
+logging:
+  level:
+    org:
+      springframework:
+        cloud:
+          gateway: trace
