@@ -5,23 +5,29 @@ spring:
   cloud:
     gateway:
       default-filters:
-        - AddResponseHeader=source-yupi
+        - AddResponseHeader=source, yupi
       routes:
-        - id: add_request_header_route
-          uri: http://localhost:8081
+        - id: api_route
+          uri: http://localhost:8123
           predicates:
             - Path=/api/**
-          filters:
-          - AddRequestParameter=name, burger
-          - name: CircuitBreaker
-            args:
-              name: myCircuitBreaker
-              fallbackUri: forward:/fallback
-          - RewritePath=/consumingServiceEndpoint, /backingServiceEndpoint
-        - id: yupi-fallback
-          uri: https:/yupi.icu
-          predicates:
-            - Path=/fallback
+
+#        - id: add_request_header_route
+#          uri: http://localhost:8081
+#          predicates:
+#            - Path=/api/**
+#          filters:
+#          - AddRequestParameter=name, burger
+#          - name: CircuitBreaker
+#            args:
+#              name: myCircuitBreaker
+#              fallbackUri: forward:/fallback
+#          - RewritePath=/consumingServiceEndpoint, /backingServiceEndpoint
+#        - id: yupi-fallback
+#          uri: https:/yupi.icu
+#          predicates:
+#            - Path=/fallback
+
 #        - id: after_route
 #          uri: https://yupi.icu
 #          predicates:

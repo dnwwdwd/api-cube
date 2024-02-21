@@ -8,6 +8,7 @@ import javax.annotation.Resource;
 
 @SpringBootTest
 public class UserInterfaceInfoServiceTest {
+
     @Resource
     UserInterfaceInfoService userInterfaceInfoService;
 

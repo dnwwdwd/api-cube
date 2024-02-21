@@ -1,4 +1,4 @@
-package com.hjj.apicubeclientsdk.utils;
+package com.hjj.apicubegateway.utils;
 
 import cn.hutool.crypto.digest.DigestAlgorithm;
 import cn.hutool.crypto.digest.Digester;

@@ -12,13 +12,14 @@ public class ApicubeGatewayApplication {
     public static void main(String[] args) {
         SpringApplication.run(ApicubeGatewayApplication.class, args);
     }
-    @Bean
-    public RouteLocator customRouteLocator(RouteLocatorBuilder builder) {
-        return builder.routes()
-                .route("tohomiematching", r -> r.path("/homiematching")
-                        .uri("http://47.113.227.23"))
-                .route("toyupiicu", r -> r.path("/yupi")
-                        .uri("https://yupi.icu"))
-                .build();
-    }
+
+//    @Bean
+//    public RouteLocator customRouteLocator(RouteLocatorBuilder builder) {
+//        return builder.routes()
+//                .route("tohomiematching", r -> r.path("/homiematching")
+//                        .uri("http://47.113.227.23"))
+//                .route("toyupiicu", r -> r.path("/yupi")
+//                        .uri("https://yupi.icu"))
+//                .build();
+//    }
 }
