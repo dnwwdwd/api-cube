@@ -2,6 +2,7 @@ package com.hjj.apicube.service;
 
 import com.hjj.apicube.model.entity.PostThumb;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.hjj.apicubecommon.model.entity.User;
 
 /**
  * 帖子点赞服务
