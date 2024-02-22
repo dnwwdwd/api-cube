@@ -3,7 +3,7 @@ package com.hjj.apicube.service;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.hjj.apicube.model.entity.Post;
-import com.hjj.apicube.model.entity.User;
+
 import javax.annotation.Resource;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;

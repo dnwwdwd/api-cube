@@ -1,20 +1,21 @@
 package com.hjj.apicube.service;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.hjj.apicube.model.dto.userinterfaceinfo.UserInterfaceInfoQueryRequest;
-import com.hjj.apicube.model.entity.UserInterfaceInfo;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.hjj.apicubecommon.model.entity.UserInterfaceInfo;
 
 /**
-* @author 17653
-* @description 针对表【user_interface_info(用户调用接口关系表)】的数据库操作Service
-* @createDate 2024-02-18 18:24:06
-*/
+ * 用户接口信息服务
+ *
+ * @author <a href="https://github.com/liyupi">程序员鱼皮</a>
+ * @from <a href="https://yupi.icu">编程导航知识星球</a>
+ */
 public interface UserInterfaceInfoService extends IService<UserInterfaceInfo> {
 
-    void validUserInterfaceInfo(UserInterfaceInfo userInterfaceInfo, boolean add);
-
-    QueryWrapper<UserInterfaceInfo> getQueryWrapper(UserInterfaceInfoQueryRequest userInterfaceInfoQueryRequest);
-
-    boolean invokerCount(long interfaceInfoId, long userId);
+    /**
+     * 调用接口统计
+     * @param interfaceInfoId
+     * @param userId
+     * @return
+     */
+    boolean invokeCount(long interfaceInfoId, long userId);
 }

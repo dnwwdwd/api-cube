@@ -7,7 +7,6 @@ import com.hjj.apicube.exception.BusinessException;
 import com.hjj.apicube.exception.ThrowUtils;
 import com.hjj.apicube.mapper.InterfaceInfoMapper;
 import com.hjj.apicube.model.dto.interfaceinfo.InterfaceInfoQueryRequest;
-import com.hjj.apicube.model.entity.InterfaceInfo;
 import com.hjj.apicube.service.InterfaceInfoService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;

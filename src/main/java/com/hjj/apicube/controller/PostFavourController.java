@@ -13,11 +13,12 @@ import com.hjj.apicube.service.UserService;
 import com.hjj.apicube.model.dto.post.PostQueryRequest;
 import com.hjj.apicube.model.dto.postfavour.PostFavourAddRequest;
 import com.hjj.apicube.model.dto.postfavour.PostFavourQueryRequest;
-import com.hjj.apicube.model.entity.User;
 import com.hjj.apicube.model.vo.PostVO;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+
+import com.hjj.apicubecommon.model.entity.User;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

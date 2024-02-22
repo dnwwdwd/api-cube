@@ -17,12 +17,13 @@ import com.hjj.apicube.model.dto.post.PostAddRequest;
 import com.hjj.apicube.model.dto.post.PostEditRequest;
 import com.hjj.apicube.model.dto.post.PostQueryRequest;
 import com.hjj.apicube.model.dto.post.PostUpdateRequest;
-import com.hjj.apicube.model.entity.User;
 import com.hjj.apicube.model.vo.PostVO;
 
 import java.util.List;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+
+import com.hjj.apicubecommon.model.entity.User;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.web.bind.annotation.GetMapping;

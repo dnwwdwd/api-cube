@@ -18,7 +18,6 @@ import com.hjj.apicube.exception.ThrowUtils;
 import com.hjj.apicube.model.dto.post.PostEsDTO;
 import com.hjj.apicube.model.dto.post.PostQueryRequest;
 import com.hjj.apicube.model.entity.PostThumb;
-import com.hjj.apicube.model.entity.User;
 import com.hjj.apicube.model.vo.PostVO;
 import com.hjj.apicube.model.vo.UserVO;
 

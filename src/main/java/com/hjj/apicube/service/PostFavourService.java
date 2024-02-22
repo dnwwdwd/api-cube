@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.hjj.apicube.model.entity.Post;
 import com.hjj.apicube.model.entity.PostFavour;
-import com.hjj.apicube.model.entity.User;
+import com.hjj.apicubecommon.model.entity.User;
 
 /**
  * 帖子收藏服务

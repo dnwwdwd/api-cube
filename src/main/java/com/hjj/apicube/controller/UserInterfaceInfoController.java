@@ -13,10 +13,10 @@ import com.hjj.apicube.exception.ThrowUtils;
 import com.hjj.apicube.model.dto.userinterfaceinfo.UserInterfaceInfoAddRequest;
 import com.hjj.apicube.model.dto.userinterfaceinfo.UserInterfaceInfoQueryRequest;
 import com.hjj.apicube.model.dto.userinterfaceinfo.UserInterfaceInfoUpdateRequest;
-import com.hjj.apicube.model.entity.User;
-import com.hjj.apicube.model.entity.UserInterfaceInfo;
 import com.hjj.apicube.service.UserInterfaceInfoService;
 import com.hjj.apicube.service.UserService;
+import com.hjj.apicubecommon.model.entity.User;
+import com.hjj.apicubecommon.model.entity.UserInterfaceInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.web.bind.annotation.*;
@@ -56,7 +56,7 @@ public class UserInterfaceInfoController {
         }
         UserInterfaceInfo userInterfaceInfo = new UserInterfaceInfo();
         BeanUtils.copyProperties(userInterfaceInfoAddRequest, userInterfaceInfo);
-        userInterfaceInfoService.validUserInterfaceInfo(userInterfaceInfo, true);
+        validUserInterfaceInfo(userInterfaceInfo, true);
         User loginUser = userService.getLoginUser(request);
         userInterfaceInfo.setUserId(loginUser.getId());
         boolean result = userInterfaceInfoService.save(userInterfaceInfo);
@@ -107,7 +107,7 @@ public class UserInterfaceInfoController {
         BeanUtils.copyProperties(userInterfaceInfoUpdateRequest, userInterfaceInfo);
         Long id = userInterfaceInfo.getId();
         ThrowUtils.throwIf(id == null || id <= 0, ErrorCode.NOT_FOUND_ERROR);
-        userInterfaceInfoService.validUserInterfaceInfo(userInterfaceInfo, false);
+        validUserInterfaceInfo(userInterfaceInfo, false);
         boolean result = userInterfaceInfoService.updateById(userInterfaceInfo);
         return  ResultUtils.success(result);
     }
@@ -142,7 +142,7 @@ public class UserInterfaceInfoController {
     @GetMapping("/list")
     public BaseResponse<List<UserInterfaceInfo>> listUserInterfaceInfo(UserInterfaceInfoQueryRequest userInterfaceInfoQueryRequest) {
         ThrowUtils.throwIf(userInterfaceInfoQueryRequest == null, ErrorCode.PARAMS_ERROR);
-        QueryWrapper<UserInterfaceInfo> queryWrapper = userInterfaceInfoService.getQueryWrapper(userInterfaceInfoQueryRequest);
+        QueryWrapper<UserInterfaceInfo> queryWrapper = getQueryWrapper(userInterfaceInfoQueryRequest);
         List<UserInterfaceInfo> userUserInterfaceInfoList = userInterfaceInfoService.list(queryWrapper);
         return ResultUtils.success(userUserInterfaceInfoList);
     }
@@ -164,9 +164,40 @@ public class UserInterfaceInfoController {
         // 限制爬虫
         ThrowUtils.throwIf(size > 20, ErrorCode.PARAMS_ERROR);
         Page<UserInterfaceInfo> userInterfaceInfoPage = userInterfaceInfoService.page(new Page<>(current, size),
-                userInterfaceInfoService.getQueryWrapper(userInterfaceInfoQueryRequest));
+                getQueryWrapper(userInterfaceInfoQueryRequest));
         return ResultUtils.success(userInterfaceInfoPage);
     }
     // endregion
 
+
+    public void validUserInterfaceInfo(UserInterfaceInfo userInterfaceInfo, boolean add) {
+        if (userInterfaceInfo == null) {
+            throw new BusinessException(ErrorCode.PARAMS_ERROR);
+        }
+        // 创建时，参数不能为空
+        if (add) {
+            ThrowUtils.throwIf(userInterfaceInfo.getInterfaceInfoId() <= 0 || userInterfaceInfo.getUserId() <= 0,
+                    ErrorCode.PARAMS_ERROR, "接口或者用户不存在");
+        }
+        // 参数校验
+        ThrowUtils.throwIf(userInterfaceInfo.getLeftNum() < 0, ErrorCode.PARAMS_ERROR, "剩余次数不能小于0");
+    }
+
+    public QueryWrapper<UserInterfaceInfo> getQueryWrapper(UserInterfaceInfoQueryRequest userInterfaceInfoQueryRequest) {
+        Long id = userInterfaceInfoQueryRequest.getId();
+        Long userId = userInterfaceInfoQueryRequest.getUserId();
+        Long interfaceInfoId = userInterfaceInfoQueryRequest.getInterfaceInfoId();
+        Integer totalNum = userInterfaceInfoQueryRequest.getTotalNum();
+        Integer leftNum = userInterfaceInfoQueryRequest.getLeftNum();
+        Integer status = userInterfaceInfoQueryRequest.getStatus();
+
+        QueryWrapper<UserInterfaceInfo> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq(id != null && id > 0,"id", id);
+        queryWrapper.eq(userId != null && userId > 0,"userId", userId);
+        queryWrapper.eq(interfaceInfoId != null && interfaceInfoId > 0,"interfaceInfoId", interfaceInfoId);
+        queryWrapper.eq(totalNum != null && totalNum > 0,"totalNum", totalNum);
+        queryWrapper.eq(leftNum != null && leftNum > 0,"leftNum", leftNum);
+        queryWrapper.eq(status != null && status > 0,"status", status);
+        return queryWrapper;
+    }
 }

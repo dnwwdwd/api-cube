@@ -1,7 +1,7 @@
 package com.hjj.apicube.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.hjj.apicube.model.entity.User;
+import com.hjj.apicubecommon.model.entity.User;
 
 /**
  * 用户数据库操作

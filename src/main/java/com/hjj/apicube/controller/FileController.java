@@ -9,13 +9,14 @@ import com.hjj.apicube.exception.BusinessException;
 import com.hjj.apicube.manager.CosManager;
 import com.hjj.apicube.service.UserService;
 import com.hjj.apicube.model.dto.file.UploadFileRequest;
-import com.hjj.apicube.model.entity.User;
 import com.hjj.apicube.model.enums.FileUploadBizEnum;
 
 import java.io.File;
 import java.util.Arrays;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+
+import com.hjj.apicubecommon.model.entity.User;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.web.bind.annotation.PostMapping;

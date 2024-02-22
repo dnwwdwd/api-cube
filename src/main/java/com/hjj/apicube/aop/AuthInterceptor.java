@@ -4,7 +4,6 @@ import com.hjj.apicube.annotation.AuthCheck;
 import com.hjj.apicube.common.ErrorCode;
 import com.hjj.apicube.exception.BusinessException;
 import com.hjj.apicube.service.UserService;
-import com.hjj.apicube.model.entity.User;
 import com.hjj.apicube.model.enums.UserRoleEnum;
 
 import javax.annotation.Resource;

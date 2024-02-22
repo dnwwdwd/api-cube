@@ -3,11 +3,12 @@ package com.hjj.apicube.service;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.hjj.apicube.model.dto.user.UserQueryRequest;
-import com.hjj.apicube.model.entity.User;
 import com.hjj.apicube.model.vo.LoginUserVO;
 import com.hjj.apicube.model.vo.UserVO;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
+
+import com.hjj.apicubecommon.model.entity.User;
 import me.chanjar.weixin.common.bean.WxOAuth2UserInfo;
 
 /**

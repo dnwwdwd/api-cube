@@ -12,7 +12,6 @@ import com.hjj.apicube.model.entity.PostFavour;
 import com.hjj.apicube.service.PostFavourService;
 import com.hjj.apicube.service.PostService;
 import com.hjj.apicube.exception.BusinessException;
-import com.hjj.apicube.model.entity.User;
 
 import javax.annotation.Resource;
 import org.springframework.aop.framework.AopContext;

@@ -10,7 +10,6 @@ import com.hjj.apicube.constant.CommonConstant;
 import com.hjj.apicube.exception.BusinessException;
 import com.hjj.apicube.mapper.UserMapper;
 import com.hjj.apicube.model.dto.user.UserQueryRequest;
-import com.hjj.apicube.model.entity.User;
 import com.hjj.apicube.model.enums.UserRoleEnum;
 import com.hjj.apicube.model.vo.LoginUserVO;
 import com.hjj.apicube.model.vo.UserVO;

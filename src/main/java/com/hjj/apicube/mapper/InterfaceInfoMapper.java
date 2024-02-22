@@ -1,7 +1,7 @@
 package com.hjj.apicube.mapper;
 
-import com.hjj.apicube.model.entity.InterfaceInfo;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.hjj.apicubecommon.model.entity.InterfaceInfo;
 
 /**
 * @author 17653

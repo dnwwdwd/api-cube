@@ -1,6 +1,5 @@
 package com.hjj.apicube.service;
 
-import com.hjj.apicube.model.entity.User;
 import javax.annotation.Resource;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
