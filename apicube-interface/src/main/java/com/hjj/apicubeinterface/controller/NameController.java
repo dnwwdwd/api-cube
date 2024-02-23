@@ -1,7 +1,6 @@
 package com.hjj.apicubeinterface.controller;
 
 import com.hjj.apicubeclientsdk.model.User;
-import com.hjj.apicubeclientsdk.utils.SignUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -26,7 +25,7 @@ public class NameController {
 
     @PostMapping("/user")
     public String getUsernameByPost(@RequestBody User user, HttpServletRequest request) {
-        String accessKey = request.getHeader("accessKey");
+/*        String accessKey = request.getHeader("accessKey");
         String nonce = request.getHeader("nonce");
         String timestamp = request.getHeader("timestamp");
         String sign = request.getHeader("sign");
@@ -45,7 +44,7 @@ public class NameController {
         String serverSign = SignUtils.genSign(body, "abcdefg");
         if (!serverSign.equals(sign)) {
             throw new RuntimeException("无权限！！！！");
-        }
+        }*/
         return "POST 你的名字是" + user.getUsername();
     }
 }
