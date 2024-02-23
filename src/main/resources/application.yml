@@ -92,7 +92,7 @@ springdoc:
 # knife4j的增强配置，不需要增强可以不配
 knife4j:
   enable: true
-
+# 这段配置用于测试，实际需要根据用户配置获取 ak / sk
 apicube:
   client:
     access-key: burger

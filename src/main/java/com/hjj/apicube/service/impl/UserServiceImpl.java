@@ -15,6 +15,7 @@ import com.hjj.apicube.model.vo.LoginUserVO;
 import com.hjj.apicube.model.vo.UserVO;
 import com.hjj.apicube.service.UserService;
 import com.hjj.apicube.utils.SqlUtils;
+import com.hjj.apicubecommon.model.entity.User;
 import lombok.extern.slf4j.Slf4j;
 import me.chanjar.weixin.common.bean.WxOAuth2UserInfo;
 import org.apache.commons.lang3.StringUtils;

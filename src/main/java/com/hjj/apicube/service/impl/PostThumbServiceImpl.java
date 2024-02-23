@@ -11,6 +11,8 @@ import com.hjj.apicube.exception.BusinessException;
 import com.hjj.apicube.model.entity.PostThumb;
 
 import javax.annotation.Resource;
+
+import com.hjj.apicubecommon.model.entity.User;
 import org.springframework.aop.framework.AopContext;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

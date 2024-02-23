@@ -1,4 +1,4 @@
-package com.hjj.apicube.service.impl;
+package com.hjj.apicube.service.impl.inner;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.hjj.apicube.common.ErrorCode;
@@ -8,7 +8,6 @@ import com.hjj.apicubecommon.model.entity.InterfaceInfo;
 import com.hjj.apicubecommon.service.InnerInterfaceInfoService;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.dubbo.config.annotation.DubboService;
-import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 
